@@ -883,7 +883,7 @@ and finish_buffer_comment v = parse
 
   let from_string ?buf ?fname ?lnum s =
     try
-      let lexbuf = Lexing.from_string s in
+      let lexbuf = Lexing.from_string ~with_positions:false s in
       let v = init_lexer ?buf ?fname ?lnum () in
       from_lexbuf v lexbuf
     with Common.End_of_input ->
@@ -891,7 +891,7 @@ and finish_buffer_comment v = parse
 
   let from_channel ?buf ?fname ?lnum ic =
     try
-      let lexbuf = Lexing.from_channel ic in
+      let lexbuf = Lexing.from_channel ~with_positions:false ic in
       let v = init_lexer ?buf ?fname ?lnum () in
       from_lexbuf v lexbuf
     with Common.End_of_input ->
@@ -925,10 +925,10 @@ and finish_buffer_comment v = parse
 
   let seq_from_string ?buf ?fname ?lnum s =
     let v = init_lexer ?buf ?fname ?lnum () in
-    seq_from_lexbuf v (Lexing.from_string s)
+    seq_from_lexbuf v (Lexing.from_string ~with_positions:false s)
 
   let seq_from_channel ?buf ?fin ?fname ?lnum ic =
-    let lexbuf = Lexing.from_channel ic in
+    let lexbuf = Lexing.from_channel ~with_positions:false ic in
     let v = init_lexer ?buf ?fname ?lnum () in
     seq_from_lexbuf v ?fin lexbuf
 
@@ -940,7 +940,7 @@ and finish_buffer_comment v = parse
           None -> Some file
         | x -> x
     in
-    let lexbuf = Lexing.from_channel ic in
+    let lexbuf = Lexing.from_channel ~with_positions:false ic in
     let v = init_lexer ?buf ?fname ?lnum () in
     seq_from_lexbuf v ~fin lexbuf
 
